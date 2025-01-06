@@ -1,9 +1,11 @@
 
 # External libraries
 import os
+import json
 import requests
 from bs4 import BeautifulSoup
 from habanero import Crossref
+
 
 def scrape(query: str, 
            nb_pages: int, 
@@ -97,21 +99,23 @@ def scrape(query: str,
             # Store article in output list
             articles.append(article)
     
-    # Save results to file
+       # Save results to file
     if save_to_file:
-        
+
         # Default filename
-        filename = f"{query}_results.txt"
+        if year:
+            filename = f"{query}_{year}_results.json"
+        else:
+            filename = f"{query}_results.json"
 
         # Make sure the filename is unique
         i = 1
         while os.path.exists(filename):
-            filename = f"{query}_results_{i}.txt"
+            filename = f"{query}_results_{i}.json"
             i += 1
     
-        # Write
-        with open(filename, 'w') as file:
-            for article in articles:
-                file.write(f"{article}\n")
+        # Write to a JSON file
+        with open(filename, 'w', encoding='utf-8') as file:
+            json.dump(articles, file, ensure_ascii=False, indent=4)
 
     return articles
