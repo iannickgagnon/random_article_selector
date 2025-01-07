@@ -24,7 +24,6 @@ def download(doi: str,
 
     # Build the URL from the DOI
     pdf_url = f"https://sci.bban.top/pdf/{doi}.pdf"
-    #pdf_url = f"https://www.wellesu.com/{doi}"
 
     # Create destination folder if it doesn't exist
     if not os.path.exists(output_folder):
