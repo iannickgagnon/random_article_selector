@@ -1,5 +1,6 @@
 # External libraries
 import os
+import re
 import json
 import openai
 from PyPDF2 import PdfReader
@@ -33,10 +34,17 @@ def extract_text_from_pdf(pdf_path):
         str: Text extracted from the PDF file.
     """
     try:
+    
         # Initialize the PDF reader and concatenate text from all pages
         reader = PdfReader(pdf_path)
         text = "".join([page.extract_text() for page in reader.pages])
+
+        # Make sure it is not ASCII-encoded
+        if len(re.findall(r'\/C\d+', text)) > 100:
+            text = re.sub(r'\/C\d+', lambda x: chr(int(x.group()[2:])), text)
+
         return text
+    
     except Exception as err:
         # Handle errors during PDF reading
         print(f"\033[91mError reading {pdf_path}: {err}\033[0m")

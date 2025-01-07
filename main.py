@@ -7,16 +7,24 @@ from scraper import scrape
 from downloader import download_from_json
 from analyzer import analyze_pdfs 
 
+'''
+**********
+* CONFIG *
+**********
+'''
+
+# Number of attempts to retry if an error occurs
+NB_ATTEMPTS = 1
+
+# Year range
+YEAR_MIN = 2009
+YEAR_MAX = 2025
 
 if __name__ == '__main__':
 
     '''
-
-    # Number of attempts to retry if an error occurs
-    NB_ATTEMPTS = 1
-
     # Iterate over years from 2001 to 2024
-    for year in range(2006, 2025):
+    for year in range(YEAR_MIN, YEAR_MAX):
 
         # Retry up to NB_ATTEMPTS times if an error occurs
         for attempt in range(1, NB_ATTEMPTS + 1):
@@ -48,7 +56,6 @@ if __name__ == '__main__':
                 time.sleep(60)
 
     print("All done!")
-
     '''
-
+    
     analyze_pdfs('test_1', 'test_1_results')
